@@ -14,4 +14,14 @@ Full-stack multilingual automotive parts e-commerce platform.
 
 ---
 
-Projects 02–04 will be added here as the portfolio grows.
+### 02 — AutoService Booking
+
+Multilingual automotive service booking and management platform with real-time, resource-aware slot availability.
+
+**Tech:** Next.js / TypeScript / NestJS / PostgreSQL / Prisma / Docker
+
+[Explore the project](./projects/autoservice-booking/README.md)
+
+---
+
+Projects 03–04 will be added here as the portfolio grows.
