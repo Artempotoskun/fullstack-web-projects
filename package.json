@@ -1,0 +1,15 @@
+{
+  "name": "fullstack-web-projects",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix projects/autoparts-store install",
+    "lint": "npm --prefix projects/autoparts-store run lint",
+    "typecheck": "npm --prefix projects/autoparts-store run typecheck",
+    "test": "npm --prefix projects/autoparts-store run test",
+    "build": "npm --prefix projects/autoparts-store run build"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
