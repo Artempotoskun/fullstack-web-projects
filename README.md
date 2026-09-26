@@ -10,8 +10,14 @@ Full-stack multilingual automotive parts e-commerce platform.
 
 **Tech:** Next.js / TypeScript / NestJS / PostgreSQL / Prisma / Docker
 
-[Explore the project](./projects/autoparts-store/README.md)
+[Explore the project](https://github.com/Artempotoskun/fullstack-web-projects/blob/feature/autoservice-booking/projects/autoparts-store/README.md)
 
 ---
 
-Projects 02–04 will be added here as the portfolio grows.
+### 02 — AutoService Booking
+
+Multilingual automotive service booking and management platform with real-time, resource-aware slot availability.
+
+**Tech:** Next.js / TypeScript / NestJS / PostgreSQL / Prisma / Docker
+
+[Explore the project](https://github.com/Artempotoskun/fullstack-web-projects/blob/feature/autoservice-booking/projects/autoservice-booking/README.md)
