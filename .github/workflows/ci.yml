@@ -72,3 +72,54 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+
+  moneytrack-quality:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: moneytrack_test
+          POSTGRES_USER: moneytrack
+          POSTGRES_PASSWORD: moneytrack-ci-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U moneytrack -d moneytrack_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+      redis:
+        image: redis:8-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    defaults:
+      run:
+        working-directory: projects/moneytrack
+    env:
+      DATABASE_URL: postgresql://moneytrack:moneytrack-ci-password@localhost:5432/moneytrack_test?schema=public
+      REDIS_URL: redis://localhost:6379
+      JWT_ACCESS_SECRET: ci-moneytrack-access-secret-minimum-32-characters
+      JWT_REFRESH_SECRET: ci-moneytrack-refresh-secret-minimum-32-characters
+      FRONTEND_URL: http://localhost:3200
+      NEXT_PUBLIC_API_URL: http://localhost:4200/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: projects/moneytrack/package-lock.json
+      - run: npm ci
+      - run: npm run prisma:generate
+      - run: npm run db:deploy
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm audit --audit-level=moderate
