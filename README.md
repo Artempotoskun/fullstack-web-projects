@@ -1,10 +1,10 @@
-# Full Stack Web Development Portfolio
+# Fullstack Web Projects
 
 Production-minded applications that demonstrate end-to-end product engineering: interface design, API architecture, relational data modelling, security, automated testing, containers, and delivery pipelines.
 
-## Projects
+# Projects
 
-### 01 — AutoParts Store
+## 01 — AutoParts Store
 
 Full-stack multilingual automotive parts e-commerce platform.
 
@@ -14,7 +14,7 @@ Full-stack multilingual automotive parts e-commerce platform.
 
 ---
 
-### 02 — AutoService Booking
+## 02 — AutoService Booking
 
 Multilingual automotive service booking and management platform with real-time, resource-aware slot availability.
 
@@ -23,5 +23,3 @@ Multilingual automotive service booking and management platform with real-time, 
 [Explore the project](./projects/autoservice-booking/README.md)
 
 ---
-
-Projects 03–04 will be added here as the portfolio grows.
