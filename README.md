@@ -23,3 +23,13 @@ Multilingual automotive service booking and management platform with real-time, 
 [Explore the project](./projects/autoservice-booking/README.md)
 
 ---
+
+## 03 — MoneyTrack
+
+Multilingual personal finance management platform with accounts, transactions, budgets, analytics, financial goals, recurring payments, CSV/XLSX import, automatic categorization, and security-focused audit logging.
+
+**Tech:** Next.js / TypeScript / NestJS / PostgreSQL / Prisma / Redis / BullMQ / Docker
+
+[Explore the project](./projects/moneytrack/README.md)
+
+---

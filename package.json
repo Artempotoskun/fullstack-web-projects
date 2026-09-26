@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "install:all": "npm --prefix projects/autoparts-store install && npm --prefix projects/autoservice-booking install",
-    "lint": "npm --prefix projects/autoparts-store run lint && npm --prefix projects/autoservice-booking run lint",
-    "typecheck": "npm --prefix projects/autoparts-store run typecheck && npm --prefix projects/autoservice-booking run typecheck",
-    "test": "npm --prefix projects/autoparts-store run test && npm --prefix projects/autoservice-booking run test",
-    "build": "npm --prefix projects/autoparts-store run build && npm --prefix projects/autoservice-booking run build"
+    "install:all": "npm --prefix projects/autoparts-store install && npm --prefix projects/autoservice-booking install && npm --prefix projects/moneytrack install",
+    "lint": "npm --prefix projects/autoparts-store run lint && npm --prefix projects/autoservice-booking run lint && npm --prefix projects/moneytrack run lint",
+    "typecheck": "npm --prefix projects/autoparts-store run typecheck && npm --prefix projects/autoservice-booking run typecheck && npm --prefix projects/moneytrack run typecheck",
+    "test": "npm --prefix projects/autoparts-store run test && npm --prefix projects/autoservice-booking run test && npm --prefix projects/moneytrack run test",
+    "build": "npm --prefix projects/autoparts-store run build && npm --prefix projects/autoservice-booking run build && npm --prefix projects/moneytrack run build"
   },
   "engines": {
     "node": ">=22"
