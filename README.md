@@ -1,23 +1,35 @@
-# Full Stack Web Development Portfolio
+# Fullstack Web Projects
 
 Production-minded applications that demonstrate end-to-end product engineering: interface design, API architecture, relational data modelling, security, automated testing, containers, and delivery pipelines.
 
-## Projects
+# Projects
 
-### 01 — AutoParts Store
+## 01 — AutoParts Store
 
 Full-stack multilingual automotive parts e-commerce platform.
 
 **Tech:** Next.js / TypeScript / NestJS / PostgreSQL / Prisma / Docker
 
-[Explore the project](https://github.com/Artempotoskun/fullstack-web-projects/blob/feature/autoservice-booking/projects/autoparts-store/README.md)
+[Explore the project](./projects/autoparts-store/README.md)
 
 ---
 
-### 02 — AutoService Booking
+## 02 — AutoService Booking
 
 Multilingual automotive service booking and management platform with real-time, resource-aware slot availability.
 
 **Tech:** Next.js / TypeScript / NestJS / PostgreSQL / Prisma / Docker
 
-[Explore the project](https://github.com/Artempotoskun/fullstack-web-projects/blob/feature/autoservice-booking/projects/autoservice-booking/README.md)
+[Explore the project](./projects/autoservice-booking/README.md)
+
+---
+
+## 03 — MoneyTrack
+
+Multilingual personal finance management platform with accounts, transactions, budgets, analytics, financial goals, recurring payments, CSV/XLSX import, automatic categorization, and security-focused audit logging.
+
+**Tech:** Next.js / TypeScript / NestJS / PostgreSQL / Prisma / Redis / BullMQ / Docker
+
+[Explore the project](./projects/moneytrack/README.md)
+
+---

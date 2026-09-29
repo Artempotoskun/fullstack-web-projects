@@ -1,0 +1,306 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Locale {
+  EN
+  UK
+  RU
+}
+
+enum Role {
+  USER
+  ADMIN
+  MECHANIC
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum NotificationType {
+  BOOKING_CREATED
+  BOOKING_CONFIRMED
+  BOOKING_RESCHEDULED
+  BOOKING_CANCELLED
+  BOOKING_REMINDER
+  BOOKING_COMPLETED
+}
+
+model User {
+  id                String         @id @default(cuid())
+  email             String         @unique
+  passwordHash      String
+  firstName         String
+  lastName          String
+  phone             String?
+  role              Role           @default(USER)
+  locale            Locale         @default(EN)
+  isActive          Boolean        @default(true)
+  refreshTokenHash  String?
+  resetTokenHash    String?
+  resetTokenExpires DateTime?
+  vehicles          Vehicle[]
+  bookings          Booking[]
+  notifications     Notification[]
+  mechanicProfile   Mechanic?
+  auditLogs         AuditLog[]     @relation("AuditActor")
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  @@index([role, isActive])
+}
+
+model Vehicle {
+  id           String    @id @default(cuid())
+  userId       String
+  make         String
+  model        String
+  year         Int
+  engine       String
+  vin          String?
+  licensePlate String?
+  mileage      Int
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings     Booking[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([userId, createdAt])
+}
+
+model Service {
+  id              String                @id @default(cuid())
+  slug            String                @unique
+  category        String
+  price           Decimal               @db.Decimal(10, 2)
+  durationMinutes Int
+  icon            String?
+  isActive        Boolean               @default(true)
+  translations    ServiceTranslation[]
+  locations       LocationService[]
+  mechanics       MechanicService[]
+  bookings        Booking[]
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@index([category, isActive])
+}
+
+model ServiceTranslation {
+  id          String  @id @default(cuid())
+  serviceId   String
+  locale      Locale
+  name        String
+  description String
+  service     Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, locale])
+  @@index([locale, name])
+}
+
+model Location {
+  id             String            @id @default(cuid())
+  slug           String            @unique
+  name           String
+  address        String
+  phone          String
+  timeZone       String            @default("Europe/Kyiv")
+  latitude       Decimal?          @db.Decimal(9, 6)
+  longitude      Decimal?          @db.Decimal(9, 6)
+  isActive       Boolean           @default(true)
+  services       LocationService[]
+  mechanics      Mechanic[]
+  serviceBays    ServiceBay[]
+  businessHours  BusinessHours[]
+  specialDays    SpecialWorkingDay[]
+  blockedPeriods BlockedPeriod[]
+  bookings       Booking[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+model LocationService {
+  locationId String
+  serviceId  String
+  isActive   Boolean  @default(true)
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  service    Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([locationId, serviceId])
+}
+
+model Mechanic {
+  id             String            @id @default(cuid())
+  userId         String?           @unique
+  locationId     String
+  name           String
+  specialization String
+  isActive       Boolean           @default(true)
+  user           User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  location       Location          @relation(fields: [locationId], references: [id])
+  services       MechanicService[]
+  blockedPeriods BlockedPeriod[]
+  bookings       Booking[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([locationId, isActive])
+}
+
+model MechanicService {
+  mechanicId String
+  serviceId  String
+  mechanic   Mechanic @relation(fields: [mechanicId], references: [id], onDelete: Cascade)
+  service    Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([mechanicId, serviceId])
+}
+
+model ServiceBay {
+  id             String          @id @default(cuid())
+  locationId     String
+  name           String
+  bayType        String
+  isActive       Boolean         @default(true)
+  location       Location        @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  blockedPeriods BlockedPeriod[]
+  bookings       Booking[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@unique([locationId, name])
+  @@index([locationId, isActive])
+}
+
+model BusinessHours {
+  id         String   @id @default(cuid())
+  locationId String
+  weekday    Int
+  openTime   String?
+  closeTime  String?
+  isClosed   Boolean  @default(false)
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  updatedAt  DateTime @updatedAt
+
+  @@unique([locationId, weekday])
+}
+
+model SpecialWorkingDay {
+  id         String   @id @default(cuid())
+  locationId String
+  date       DateTime @db.Date
+  openTime   String?
+  closeTime  String?
+  isClosed   Boolean  @default(true)
+  note       String?
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([locationId, date])
+  @@index([date])
+}
+
+model BlockedPeriod {
+  id           String      @id @default(cuid())
+  locationId   String
+  mechanicId   String?
+  serviceBayId String?
+  startTime    DateTime
+  endTime      DateTime
+  reason       String
+  location     Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  mechanic     Mechanic?   @relation(fields: [mechanicId], references: [id], onDelete: Cascade)
+  serviceBay   ServiceBay? @relation(fields: [serviceBayId], references: [id], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+
+  @@index([locationId, startTime, endTime])
+  @@index([mechanicId, startTime, endTime])
+  @@index([serviceBayId, startTime, endTime])
+}
+
+model Booking {
+  id                 String        @id @default(cuid())
+  reference          String        @unique
+  userId             String
+  vehicleId          String
+  serviceId          String
+  locationId         String
+  mechanicId         String?
+  serviceBayId       String
+  startTime          DateTime
+  endTime            DateTime
+  status             BookingStatus @default(PENDING)
+  quotedPrice        Decimal       @db.Decimal(10, 2)
+  customerNotes      String?
+  internalNotes      String?
+  cancelledAt        DateTime?
+  cancellationReason String?
+  user               User          @relation(fields: [userId], references: [id])
+  vehicle            Vehicle       @relation(fields: [vehicleId], references: [id])
+  service            Service       @relation(fields: [serviceId], references: [id])
+  location           Location      @relation(fields: [locationId], references: [id])
+  mechanic           Mechanic?     @relation(fields: [mechanicId], references: [id])
+  serviceBay         ServiceBay    @relation(fields: [serviceBayId], references: [id])
+  statusHistory      BookingStatusHistory[]
+  notifications      Notification[]
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@index([locationId, startTime, endTime])
+  @@index([mechanicId, startTime, endTime])
+  @@index([serviceBayId, startTime, endTime])
+  @@index([userId, startTime])
+  @@index([status, startTime])
+}
+
+model BookingStatusHistory {
+  id        String        @id @default(cuid())
+  bookingId String
+  status    BookingStatus
+  changedBy String?
+  note      String?
+  booking   Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+
+  @@index([bookingId, createdAt])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  bookingId String?
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  booking   Booking?         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead, createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json     @default("{}")
+  ipAddress  String?
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entityType, entityId])
+}
