@@ -1,10 +1,12 @@
-# Screenshot plan
+# MoneyTrack screenshots
 
-No screenshots are committed yet. Capture the seeded application after the first hosted release at:
+These screenshots show the application with documented, non-production demo data.
 
-- 1440 × 1000: landing page and full dashboard
-- 1024 × 768: analytics and accounts
-- 768 × 1024: budgets and transaction history
-- 390 × 844: dashboard, mobile navigation, import, and authentication
+| File | View | Viewport |
+| --- | --- | --- |
+| `landing-desktop.png` | Public landing page and product preview | 1440 × 1000 |
+| `dashboard-desktop.png` | Dashboard, analytics, recent transactions, and upcoming payments | 1440 × 1000 |
+| `analytics-tablet.png` | Analytics and month-to-month comparison | 1024 × 768 |
+| `dashboard-mobile.png` | Mobile dashboard and bottom navigation | 390 × 844 |
 
-Use only the documented demo data and never display real personal financial information.
+No real personal financial information, banking credentials, payment-card details, or secrets are displayed.

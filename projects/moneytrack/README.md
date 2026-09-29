@@ -21,9 +21,25 @@ It is a portfolio application—not a bank. It never asks for or stores banking 
 
 ## Screenshots
 
-Screenshots will be added after the first hosted release. The current responsive interface includes a landing page, authentication, dashboard, accounts, transactions, budgets, analytics, goals, recurring payments, imports, categories, settings, and security activity views.
+The screenshots below use seeded demo data only. They show the responsive product UI at the desktop, tablet, and mobile breakpoints.
 
-See [screenshots/README.md](./screenshots/README.md) for the planned capture matrix.
+### Landing page
+
+![MoneyTrack landing page with product preview and feature overview](./screenshots/landing-desktop.png)
+
+### Dashboard
+
+![MoneyTrack desktop dashboard with balance cards, cash-flow analytics, recent transactions, and upcoming payments](./screenshots/dashboard-desktop.png)
+
+### Analytics
+
+![MoneyTrack analytics page at tablet width with month comparison, account balances, and an income-versus-expenses chart](./screenshots/analytics-tablet.png)
+
+### Mobile dashboard
+
+<img src="./screenshots/dashboard-mobile.png" alt="MoneyTrack mobile dashboard with responsive metric cards, cash-flow chart, and bottom navigation" width="390" />
+
+See [screenshots/README.md](./screenshots/README.md) for capture sizes and image details.
 
 ## Technology stack
 
